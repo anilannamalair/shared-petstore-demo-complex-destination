@@ -1,34 +1,36 @@
-jobs:
-  install-maven-dependencies--1103897095:
-    needs: hello--2012993625
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      name: Checkout Source Code
-    - run: mvn clean install
-      name: 'Install Maven Dependencies: installMavenDependencies'
-  hello--2012993625:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      name: Checkout Source Code
-    - run: echo "Hello, ${name}!"
-      name: 'Hello: sayHello'
-  build--1465615398:
-    needs: install-maven-dependencies--1103897095
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      name: Checkout Source Code
-    - run: mvn clean package
-      name: 'Build: buildProjectWithMaven'
-  run-tests-743287471:
-    needs: build--1465615398
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      name: Checkout Source Code
-    - run: mvn test
-      name: 'Run Tests: runTestsWithMaven'
-name: Jenkins to GitHub Actions
-'on': push
+@Library('my-shared-library') _  // Reference the shared library
+
+pipeline {
+    agent any
+
+    stages {
+         stage('Hello') {
+            steps {
+                script {
+                    sayHello("Anil")
+                }
+            }
+        }
+        stage('Install Maven Dependencies') {
+            steps {
+                script {
+                    installMavenDependencies()
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    buildProjectWithMaven()
+                }
+            }
+        }
+         stage('Run Tests') {
+            steps {
+                script {
+                    runTestsWithMaven()
+                }
+            }
+        }     
+    }
+}

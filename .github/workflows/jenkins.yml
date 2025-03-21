@@ -1,36 +1,32 @@
-@Library('my-shared-library') _  // Reference the shared library
+name: CI/CD Pipeline
 
-pipeline {
-    agent any
+on:
+  push:
+    branches:
+      - main
 
-    stages {
-         stage('Hello') {
-            steps {
-                script {
-                    sayHello("Anil")
-                }
-            }
-        }
-        stage('Install Maven Dependencies') {
-            steps {
-                script {
-                    installMavenDependencies()
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                script {
-                    buildProjectWithMaven()
-                }
-            }
-        }
-         stage('Run Tests') {
-            steps {
-                script {
-                    runTestsWithMaven()
-                }
-            }
-        }     
-    }
-}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout Shared Library
+        uses: actions/checkout@v4
+        with:
+          repository: anilannamalair/my-shared-library
+          path: shared-library
+
+      - name: Say Hello
+        run: ./shared-library/scripts/sayHello.sh Anil
+
+      - name: Install Maven Dependencies
+        run: ./shared-library/scripts/installMavenDependencies.sh
+
+      - name: Build Project with Maven
+        run: ./shared-library/scripts/buildProjectWithMaven.sh
+
+      - name: Run Tests with Maven
+        run: ./shared-library/scripts/runTestsWithMaven.sh

@@ -20,13 +20,13 @@ jobs:
           path: shared-library
 
       - name: Say Hello
-        run: ./shared-library/scripts/sayHello.sh Anil
+        run: ./shared-library/vars/sayHello.sh Anil
 
       - name: Install Maven Dependencies
-        run: ./shared-library/scripts/installMavenDependencies.sh
+        run: ./shared-library/vars/installMavenDependencies.sh
 
       - name: Build Project with Maven
-        run: ./shared-library/scripts/buildProjectWithMaven.sh
+        run: ./shared-library/vars/buildProjectWithMaven.sh
 
       - name: Run Tests with Maven
-        run: ./shared-library/scripts/runTestsWithMaven.sh
+        run: ./shared-library/vars/runTestsWithMaven.sh

@@ -103,3 +103,38 @@ jobs:
       name: 'Run Tests: runTestsWithMaven'
 name: Jenkins to GitHub Actions
 'on': push
+
+jobs:
+  install-maven-dependencies--1103897095:
+    needs: hello--2012993625
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v3
+    - name: 'Install Maven Dependencies: installMavenDependencies'
+      run: mvn clean install
+  hello--2012993625:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v3
+    - name: 'Hello: sayHello'
+      run: echo "Hello, ${name}!"
+  build--1465615398:
+    needs: install-maven-dependencies--1103897095
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v3
+    - name: 'Build: buildProjectWithMaven'
+      run: mvn clean package
+  run-tests-743287471:
+    needs: build--1465615398
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v3
+    - name: 'Run Tests: runTestsWithMaven'
+      run: mvn test
+name: Jenkins to GitHub Actions
+'on': push
